@@ -17,6 +17,9 @@ public class BoardController {
 
 	@RequestMapping(value = "/list.do")
 	public String getBoardlist(BoardVO vo, Model model) {
+		if(vo.getSearchCondition() == null) vo.setSearchCondition("TITLE");
+		if(vo.getSearchKeyword() == null) vo.setSearchKeyword("");
+		
 		List<BoardVO> boardlist = boardService.boardlist(vo);
 		model.addAttribute("boardlist", boardlist);
 		return "WEB-INF/board/list";
@@ -50,4 +53,5 @@ public class BoardController {
 		boardService.update(vo);
 		return "redirect:list.do";
 	}
+	
 }

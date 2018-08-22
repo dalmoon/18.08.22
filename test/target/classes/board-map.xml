@@ -15,6 +15,9 @@
 	
 	<select id="blist" parameterType="com.test.board.BoardVO" resultType="com.test.board.BoardVO">
 		SELECT * FROM BOARD
+		where title like '%'||#{searchKeyword}||'%' or
+			CONTENT like '%'||#{searchKeyword}||'%'
+		order by seq desc
 	</select>
 	
 	<select id="board" parameterType="com.test.board.BoardVO" resultType="com.test.board.BoardVO">
