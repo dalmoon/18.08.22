@@ -13,4 +13,5 @@ public interface BoardMap {
 	public int insert(BoardVO vo);
 	public int delete(BoardVO vo);
 	public int update(BoardVO vo);
+	public List<BoardVO> listPage(int page);
 }

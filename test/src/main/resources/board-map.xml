@@ -40,4 +40,12 @@
 		content = #{content}
 		where seq = #{seq}
 	</update>
+	
+	<select id="listPage" resultType="com.test.board.BoardVO">
+		select * from board
+		where title like '%'||#{searchKeyword}||'%' or
+			CONTENT like '%'||#{searchKeyword}||'%'
+		order by seq desc
+		limit #{page}, 10
+	</select>
 </mapper>

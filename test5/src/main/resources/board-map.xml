@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.mapper.BoardMap">
+
+	<resultMap id="boardMap" type="com.test.board.BoardVO">
+		<result property="pagenum" column="pagenum"/>
+		<result property="contentnum" column="contentnum"/>
+		<result property="seq" column="seq" />
+		<result property="title" column="title" />
+		<result property="writer" column="writer" />
+		<result property="content" column="content" />
+		<result property="regdate" column="regdate" />
+		<result property="cnt" column="cnt" />
+	</resultMap>
+	
+	<!-- <select id="blist" parameterType="com.test.board.BoardVO" resultType="com.test.board.BoardVO">
+		SELECT * FROM BOARD
+		where title like '%'||#{searchKeyword}||'%' or
+			CONTENT like '%'||#{searchKeyword}||'%'
+		order by seq desc
+	</select> -->
+	
+	<select id="testlist">
+		select * from (SELECT * FROM ( SELECT rownum rnum,* FROM board ) board 
+		<![CDATA[
+		where rnum <= #{cpagenum} ) where rnum >= #{ccontentnum}
+		]]>    
+	</select>
+	
+	<select id="testcount" resultType="int">
+		select count(*) from board
+	</select>
+	
+	<select id="board" parameterType="com.test.board.BoardVO" resultType="com.test.board.BoardVO">
+		SELECT * FROM BOARD WHERE seq=#{seq}
+	</select>
+	
+	<insert id="insert" parameterType="com.test.board.BoardVO">
+		insert into board(seq, title, writer, content)
+		values((select nvl(max(seq), 0) + 1 from board),
+		#{title},#{writer},#{content})
+	</insert>
+	
+	<delete id="delete">
+		delete board where seq = #{seq}
+	</delete>
+	
+	<update id="update">
+		update board set 
+		title = #{title},
+		content = #{content}
+		where seq = #{seq}
+	</update>
+	
+</mapper>

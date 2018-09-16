@@ -31,4 +31,13 @@ public class BoardServiceImpl implements BoardService{
 	public int update(BoardVO vo) {
 		return boardMap.update(vo);
 	}
+
+	@Override
+	public List<BoardVO> boardlist(int page) {
+		if(page <= 0) {
+			page = 1;
+		}
+		page = (page - 1) * 10;
+		return boardMap.listPage(page);
+	}
 }
